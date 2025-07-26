@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as fabric from "fabric";
+import { Canvas as FabricCanvas, Rect, Circle, Text, Image as FabricImage } from "fabric";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
