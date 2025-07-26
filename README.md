@@ -456,6 +456,21 @@ VITE_CUSTOM_API_KEY=your_custom_api_key
 
 ## 🚀 Deployment
 
+### Quick Deployment Check
+
+Before deploying, run our automated deployment readiness check:
+
+```bash
+# For Windows (PowerShell)
+npm run deploy-check
+
+# For macOS/Linux (Bash)
+npm run deploy-check:bash
+
+# Manual type checking
+npm run type-check
+```
+
 ### Lovable Platform (Recommended)
 
 The easiest way to deploy:
