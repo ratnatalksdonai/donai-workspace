@@ -1,15 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, Circle, Rect, FabricText, FabricImage } from "fabric";
-import { Toolbar } from "./Toolbar";
-import { ColorPicker } from "./ColorPicker";
-import { toast } from "sonner";
-import { removeBackground, loadImage } from "@/utils/backgroundRemover";
+import React, { useEffect, useRef, useState } from "react";
+import { fabric } from "fabric";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { ColorPicker } from "./ColorPicker";
+import { Toolbar } from "./Toolbar";
+import { removeBackground, loadImage } from "@/utils/backgroundRemover";
+import { toast } from "sonner";
 
-export const Canvas = () => {
+/**
+ * Main Canvas component for Don.ai Creative Suite
+ * Provides interactive design canvas with Fabric.js
+ */
+export const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
+  const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | null>(null);
   const [activeColor, setActiveColor] = useState("#8B5CF6");
   const [activeTool, setActiveTool] = useState<"select" | "draw" | "rectangle" | "circle" | "text">("select");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -19,7 +24,7 @@ export const Canvas = () => {
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const canvas = new FabricCanvas(canvasRef.current, {
+    const canvas = new fabric.Canvas(canvasRef.current, {
       width: 800,
       height: 600,
       backgroundColor: "#ffffff",
@@ -59,7 +64,7 @@ export const Canvas = () => {
     setActiveTool(tool);
 
     if (tool === "rectangle") {
-      const rect = new Rect({
+      const rect = new fabric.Rect({
         left: 100,
         top: 100,
         fill: activeColor,
@@ -71,7 +76,7 @@ export const Canvas = () => {
       fabricCanvas?.add(rect);
       fabricCanvas?.setActiveObject(rect);
     } else if (tool === "circle") {
-      const circle = new Circle({
+      const circle = new fabric.Circle({
         left: 100,
         top: 100,
         fill: activeColor,
@@ -80,7 +85,7 @@ export const Canvas = () => {
       fabricCanvas?.add(circle);
       fabricCanvas?.setActiveObject(circle);
     } else if (tool === "text") {
-      const text = new FabricText("Your text here", {
+      const text = new fabric.Text("Your text here", {
         left: 100,
         top: 100,
         fill: activeColor,
@@ -125,7 +130,7 @@ export const Canvas = () => {
 
     try {
       const img = await loadImage(file);
-      const fabricImg = await FabricImage.fromURL(img.src);
+      const fabricImg = await fabric.Image.fromURL(img.src);
       
       // Scale image to fit canvas if too large
       const canvasWidth = fabricCanvas.width || 800;
@@ -159,7 +164,7 @@ export const Canvas = () => {
     
     try {
       // Get the image element from the fabric object
-      const fabricImg = activeObject as FabricImage;
+      const fabricImg = activeObject as fabric.Image;
       const imgElement = fabricImg.getElement() as HTMLImageElement;
       
       if (!imgElement) {
@@ -171,7 +176,7 @@ export const Canvas = () => {
       // Remove background
       const processedBlob = await removeBackground(imgElement);
       const processedImg = await loadImage(processedBlob);
-      const newFabricImg = await FabricImage.fromURL(processedImg.src);
+      const newFabricImg = await fabric.Image.fromURL(processedImg.src);
       
       // Copy properties from original image
       newFabricImg.set({
@@ -222,6 +227,50 @@ export const Canvas = () => {
     link.click();
     
     toast("Design exported successfully!");
+  };
+
+  const addRectangle = () => {
+    if (!fabricCanvas) return;
+
+    const rect = new fabric.Rect({
+      left: 100,
+      top: 100,
+      fill: "#ff6b6b",
+      width: 100,
+      height: 100,
+    });
+
+    fabricCanvas.add(rect);
+    fabricCanvas.setActiveObject(rect);
+  };
+
+  const addCircle = () => {
+    if (!fabricCanvas) return;
+
+    const circle = new fabric.Circle({
+      left: 200,
+      top: 200,
+      fill: "#4ecdc4",
+      radius: 50,
+    });
+
+    fabricCanvas.add(circle);
+    fabricCanvas.setActiveObject(circle);
+  };
+
+  const addText = () => {
+    if (!fabricCanvas) return;
+
+    const text = new fabric.Text("Hello Don.ai!", {
+      left: 150,
+      top: 300,
+      fontFamily: "Arial",
+      fontSize: 24,
+      fill: "#333333",
+    });
+
+    fabricCanvas.add(text);
+    fabricCanvas.setActiveObject(text);
   };
 
   return (
