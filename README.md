@@ -598,6 +598,33 @@ git remote -v
 git push origin main
 ```
 
+### Fabric.js TypeScript Issues
+
+#### Problem: Module '"fabric"' has no exported member 'fabric'
+This occurs due to version mismatch between Fabric.js v6+ and older TypeScript definitions.
+
+**Solution:**
+1. Remove incompatible TypeScript definitions:
+   ```bash
+   npm uninstall @types/fabric
+   ```
+
+2. Use proper imports for Fabric.js v6:
+   ```typescript
+   // Correct import for Fabric.js v6
+   import { Canvas as FabricCanvas, Rect, Circle, Text, Image as FabricImage } from "fabric";
+   
+   // Use TypeScript's any type for Fabric objects
+   const [fabricCanvas, setFabricCanvas] = useState<any>(null);
+   ```
+
+3. Add TypeScript comment to suppress import warnings:
+   ```typescript
+   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+   // @ts-ignore - Fabric.js v6 doesn't have proper TypeScript definitions yet
+   import { Canvas as FabricCanvas } from "fabric";
+   ```
+
 ### Performance Issues
 
 #### Large Bundle Size
