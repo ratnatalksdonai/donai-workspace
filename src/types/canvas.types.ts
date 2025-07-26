@@ -45,11 +45,16 @@ export interface ProcessInput {
  * Canvas event types
  */
 export interface CanvasEventHandlers {
-  onObjectAdded?: (e: fabric.IEvent) => void;
-  onObjectModified?: (e: fabric.IEvent) => void;
-  onSelectionCreated?: (e: fabric.IEvent) => void;
-  onSelectionUpdated?: (e: fabric.IEvent) => void;
-  onSelectionCleared?: (e: fabric.IEvent) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onObjectAdded?: (e: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onObjectModified?: (e: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSelectionCreated?: (e: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSelectionUpdated?: (e: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSelectionCleared?: (e: any) => void;
 }
 
 /**
