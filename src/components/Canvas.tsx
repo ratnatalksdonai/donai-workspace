@@ -19,9 +19,12 @@ export const Canvas = () => {
       backgroundColor: "#ffffff",
     });
 
-    // Initialize the freeDrawingBrush right after canvas creation
-    canvas.freeDrawingBrush.color = activeColor;
-    canvas.freeDrawingBrush.width = 3;
+    // Initialize the freeDrawingBrush safely
+    canvas.isDrawingMode = false;
+    if (canvas.freeDrawingBrush) {
+      canvas.freeDrawingBrush.color = activeColor;
+      canvas.freeDrawingBrush.width = 3;
+    }
 
     setFabricCanvas(canvas);
     toast("Canvas ready! Start creating amazing designs!");
@@ -29,13 +32,14 @@ export const Canvas = () => {
     return () => {
       canvas.dispose();
     };
-  }, []);
+  }, [activeColor]);
 
   useEffect(() => {
     if (!fabricCanvas) return;
 
     fabricCanvas.isDrawingMode = activeTool === "draw";
     
+    // Safely set brush properties when in drawing mode
     if (activeTool === "draw" && fabricCanvas.freeDrawingBrush) {
       fabricCanvas.freeDrawingBrush.color = activeColor;
       fabricCanvas.freeDrawingBrush.width = 3;
