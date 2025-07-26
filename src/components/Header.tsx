@@ -8,7 +8,11 @@ export const Header = () => {
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-8 w-8 text-white" />
+            <img 
+              src="/lovable-uploads/ef91a049-994d-408f-b928-9a384a9b9da2.png" 
+              alt="don.ai logo" 
+              className="h-8 w-8"
+            />
             <h1 className="text-2xl font-bold text-white">don.ai</h1>
           </div>
           <div className="hidden md:flex items-center gap-2 text-white/80 text-sm">

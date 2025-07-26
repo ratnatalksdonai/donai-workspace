@@ -6,7 +6,10 @@ import {
   Circle, 
   Type,
   Trash2,
-  Download
+  Download,
+  Upload,
+  Scissors,
+  Undo
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -15,9 +18,13 @@ interface ToolbarProps {
   onToolClick: (tool: "select" | "draw" | "rectangle" | "circle" | "text") => void;
   onClear: () => void;
   onExport: () => void;
+  onImageUpload: () => void;
+  onBackgroundRemove: () => void;
+  onUndo: () => void;
+  isProcessing?: boolean;
 }
 
-export const Toolbar = ({ activeTool, onToolClick, onClear, onExport }: ToolbarProps) => {
+export const Toolbar = ({ activeTool, onToolClick, onClear, onExport, onImageUpload, onBackgroundRemove, onUndo, isProcessing }: ToolbarProps) => {
   const tools = [
     { id: "select" as const, icon: MousePointer2, label: "Select" },
     { id: "draw" as const, icon: Pencil, label: "Draw" },
@@ -46,6 +53,34 @@ export const Toolbar = ({ activeTool, onToolClick, onClear, onExport }: ToolbarP
         })}
         
         <div className="w-px h-6 bg-border mx-2" />
+        
+        <Button
+          variant="secondary"
+          size="icon"
+          onClick={onImageUpload}
+          title="Upload Image"
+        >
+          <Upload className="h-4 w-4" />
+        </Button>
+        
+        <Button
+          variant="creative"
+          size="icon"
+          onClick={onBackgroundRemove}
+          title="Remove Background"
+          disabled={isProcessing}
+        >
+          <Scissors className="h-4 w-4" />
+        </Button>
+        
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={onUndo}
+          title="Undo"
+        >
+          <Undo className="h-4 w-4" />
+        </Button>
         
         <Button
           variant="outline"

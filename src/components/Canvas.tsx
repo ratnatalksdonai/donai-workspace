@@ -1,14 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import { Canvas as FabricCanvas, Circle, Rect, FabricText } from "fabric";
+import { Canvas as FabricCanvas, Circle, Rect, FabricText, FabricImage } from "fabric";
 import { Toolbar } from "./Toolbar";
 import { ColorPicker } from "./ColorPicker";
 import { toast } from "sonner";
+import { removeBackground, loadImage } from "@/utils/backgroundRemover";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
   const [activeColor, setActiveColor] = useState("#8B5CF6");
   const [activeTool, setActiveTool] = useState<"select" | "draw" | "rectangle" | "circle" | "text">("select");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [canvasHistory, setCanvasHistory] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -28,6 +34,9 @@ export const Canvas = () => {
 
     setFabricCanvas(canvas);
     toast("Canvas ready! Start creating amazing designs!");
+
+    // Save initial state
+    saveCanvasState(canvas);
 
     return () => {
       canvas.dispose();
@@ -81,6 +90,111 @@ export const Canvas = () => {
       fabricCanvas?.add(text);
       fabricCanvas?.setActiveObject(text);
     }
+
+    // Save state after adding object
+    saveCanvasState(fabricCanvas);
+  };
+
+  const saveCanvasState = (canvas: FabricCanvas) => {
+    const state = JSON.stringify(canvas.toObject());
+    setCanvasHistory(prev => [...prev.slice(-9), state]);
+  };
+
+  const handleUndo = () => {
+    if (!fabricCanvas || canvasHistory.length <= 1) return;
+    
+    const newHistory = canvasHistory.slice(0, -1);
+    const previousState = newHistory[newHistory.length - 1];
+    
+    if (previousState) {
+      fabricCanvas.loadFromJSON(previousState, () => {
+        fabricCanvas.renderAll();
+        setCanvasHistory(newHistory);
+        toast("Undone last action!");
+      });
+    }
+  };
+
+  const handleImageUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !fabricCanvas) return;
+
+    try {
+      const img = await loadImage(file);
+      const fabricImg = await FabricImage.fromURL(img.src);
+      
+      // Scale image to fit canvas if too large
+      const canvasWidth = fabricCanvas.width || 800;
+      const canvasHeight = fabricCanvas.height || 600;
+      const scale = Math.min(canvasWidth / fabricImg.width!, canvasHeight / fabricImg.height!, 1);
+      
+      fabricImg.scale(scale);
+      fabricImg.set({
+        left: 100,
+        top: 100,
+      });
+      
+      fabricCanvas.add(fabricImg);
+      fabricCanvas.setActiveObject(fabricImg);
+      saveCanvasState(fabricCanvas);
+      toast("Image uploaded successfully!");
+    } catch (error) {
+      toast("Failed to upload image. Please try again.");
+    }
+  };
+
+  const handleBackgroundRemove = async () => {
+    const activeObject = fabricCanvas?.getActiveObject();
+    
+    if (!activeObject || activeObject.type !== 'image') {
+      toast("Please select an image first!");
+      return;
+    }
+
+    setIsProcessing(true);
+    
+    try {
+      // Get the image element from the fabric object
+      const fabricImg = activeObject as FabricImage;
+      const imgElement = fabricImg.getElement() as HTMLImageElement;
+      
+      if (!imgElement) {
+        throw new Error("No image element found");
+      }
+
+      toast("Processing image... This may take a moment.");
+      
+      // Remove background
+      const processedBlob = await removeBackground(imgElement);
+      const processedImg = await loadImage(processedBlob);
+      const newFabricImg = await FabricImage.fromURL(processedImg.src);
+      
+      // Copy properties from original image
+      newFabricImg.set({
+        left: fabricImg.left,
+        top: fabricImg.top,
+        scaleX: fabricImg.scaleX,
+        scaleY: fabricImg.scaleY,
+        angle: fabricImg.angle,
+      });
+      
+      // Replace the original image
+      fabricCanvas?.remove(fabricImg);
+      fabricCanvas?.add(newFabricImg);
+      fabricCanvas?.setActiveObject(newFabricImg);
+      saveCanvasState(fabricCanvas!);
+      
+      toast("Background removed successfully!");
+    } catch (error) {
+      console.error("Background removal failed:", error);
+      toast("Failed to remove background. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleClear = () => {
@@ -88,6 +202,8 @@ export const Canvas = () => {
     fabricCanvas.clear();
     fabricCanvas.backgroundColor = "#ffffff";
     fabricCanvas.renderAll();
+    setCanvasHistory([]);
+    saveCanvasState(fabricCanvas);
     toast("Canvas cleared! Ready for your next masterpiece!");
   };
 
@@ -117,10 +233,36 @@ export const Canvas = () => {
             onToolClick={handleToolClick} 
             onClear={handleClear}
             onExport={handleExport}
+            onImageUpload={handleImageUpload}
+            onBackgroundRemove={handleBackgroundRemove}
+            onUndo={handleUndo}
+            isProcessing={isProcessing}
           />
           <ColorPicker color={activeColor} onChange={setActiveColor} />
         </div>
       </div>
+      
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+      
+      {isProcessing && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-card p-6 rounded-lg shadow-elegant">
+            <div className="flex items-center gap-3">
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
+              <div>
+                <h3 className="font-semibold">Processing Image</h3>
+                <p className="text-sm text-muted-foreground">Removing background...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="flex justify-center">
         <div className="bg-card border border-border rounded-lg shadow-elegant overflow-hidden">
