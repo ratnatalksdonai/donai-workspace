@@ -738,7 +738,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 👨‍💻 Author
 
 <div align="center">
-  <img src="https://github.com/ratnakiri.png" alt="Ratna Kirti" width="100" height="100" style="border-radius: 50%;">
   
   **Ratna Kirti**
   
