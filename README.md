@@ -5,11 +5,13 @@
   
   <h3>AI-Powered Creative Design Application</h3>
   <p>A browser-based creative design suite built with React, TypeScript, and AI-powered features</p>
+  <p><strong>Created by:</strong> <a href="https://github.com/ratnakiri">Ratna Kirti</a></p>
   
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
   [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+  [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)](https://pages.github.com/)
 </div>
 
 ---
@@ -30,12 +32,14 @@
 - [Contributing](#-contributing)
 - [Troubleshooting](#-troubleshooting)
 - [License](#-license)
+- [Author](#-author)
 
 ## 🎯 Overview
 
 Don.ai is a modern, browser-based creative design application that rivals Canva and Adobe Creative Suite. Built with cutting-edge web technologies, it offers AI-powered design tools, interactive canvas editing, and a comprehensive suite of creative features.
 
 **🌐 Live Demo**: [https://lovable.dev/projects/aa69d391-4192-4f15-9faa-987c1cc3a71a](https://lovable.dev/projects/aa69d391-4192-4f15-9faa-987c1cc3a71a)
+**🚀 GitHub Pages**: [https://ratnakiri.github.io/don-create-code/](https://ratnakiri.github.io/don-create-code/)
 
 ### Key Highlights
 
@@ -45,6 +49,7 @@ Don.ai is a modern, browser-based creative design application that rivals Canva 
 - 📱 **Responsive Design**: Mobile-first approach with Tailwind CSS
 - 🎭 **Modern UI**: shadcn/ui components with Radix UI primitives
 - 🔒 **Privacy-First**: All AI processing happens client-side
+- 🌐 **Easy Deployment**: Optimized for GitHub Pages and modern hosting platforms
 
 ## ✨ Features
 
