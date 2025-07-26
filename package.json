@@ -11,7 +11,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "commit": "node scripts/commit.js",
-    "auto-commit": "node scripts/auto-commit.js"
+    "auto-commit": "node scripts/auto-commit.js",
+    "deploy-check": "powershell -ExecutionPolicy Bypass -File scripts/deployment-check.ps1",
+    "deploy-check:bash": "bash scripts/deployment-check.sh",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
