@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { fabric } from "fabric";
+import * as fabric from "fabric";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -100,7 +100,8 @@ export const Canvas: React.FC = () => {
     saveCanvasState(fabricCanvas);
   };
 
-  const saveCanvasState = (canvas: FabricCanvas) => {
+  const saveCanvasState = (canvas: fabric.Canvas | null) => {
+    if (!canvas) return;
     const state = JSON.stringify(canvas.toObject());
     setCanvasHistory(prev => [...prev.slice(-9), state]);
   };
