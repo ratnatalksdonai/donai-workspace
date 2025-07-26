@@ -14,7 +14,11 @@
     "auto-commit": "node scripts/auto-commit.js",
     "deploy-check": "powershell -ExecutionPolicy Bypass -File scripts/deployment-check.ps1",
     "deploy-check:bash": "bash scripts/deployment-check.sh",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "deploy:clean": "gh-pages -d dist --remove \"*.{js,css,html}\" --add",
+    "deploy:github": "node scripts/deploy-github-pages.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
