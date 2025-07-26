@@ -735,13 +735,45 @@ Don.ai supports modern browsers with ES2020+ features:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## 👨‍💻 Author
+
+<div align="center">
+  <img src="https://github.com/ratnakiri.png" alt="Ratna Kirti" width="100" height="100" style="border-radius: 50%;">
+  
+  **Ratna Kirti**
+  
+  *Full-Stack Developer & AI Enthusiast*
+  
+  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ratnakiri)
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ratnakiri)
+  [![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white)](https://ratnakiri.dev)
+  
+  📧 **Contact**: [ratna.kirti@gmail.com](mailto:ratna.kirti@gmail.com)
+</div>
+
+### About the Developer
+
+Ratna Kirti is a passionate full-stack developer with expertise in:
+- 🚀 **Frontend**: React, TypeScript, Next.js, Vue.js
+- 🔧 **Backend**: Node.js, Python, Express, FastAPI
+- 🤖 **AI/ML**: Hugging Face, TensorFlow, PyTorch
+- ☁️ **Cloud**: AWS, Vercel, Netlify, GitHub Actions
+- 🎨 **Design**: Canvas APIs, SVG manipulation, Creative tools
+
+Don.ai Creative Suite represents a culmination of modern web technologies and AI integration, designed to democratize creative design tools for everyone.
+
+### Project Inspiration
+
+> "I believe that creativity should be accessible to everyone. Don.ai is my contribution to making professional-grade design tools available in the browser, powered by AI and built with modern web technologies." - Ratna Kirti
+
 ---
 
 <div align="center">
   <h3>🎨 Start Creating with Don.ai Today!</h3>
-  <p>Built with ❤️ by the Don.ai team</p>
+  <p>Built with ❤️ by <a href="https://github.com/ratnakiri">Ratna Kirti</a></p>
   
   [🚀 Live Demo](https://lovable.dev/projects/aa69d391-4192-4f15-9faa-987c1cc3a71a) • 
+  [🌐 GitHub Pages](https://ratnakiri.github.io/don-create-code/) • 
   [📖 Documentation](https://docs.lovable.dev/) • 
-  [🐛 Report Issues](https://github.com/ratnatalksdonai/don-create-code/issues)
+  [🐛 Report Issues](https://github.com/ratnakiri/don-create-code/issues)
 </div>
