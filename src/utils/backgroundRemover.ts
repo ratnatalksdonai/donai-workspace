@@ -1,11 +1,11 @@
-import { env, AutoProcessor, AutoModel } from '@huggingface/transformers';
+import { env, AutoProcessor, AutoModel, type Processor, type PreTrainedModel } from '@huggingface/transformers';
 
 // Configure transformers.js
 env.allowLocalModels = false;
 env.allowRemoteModels = true;
 
-let processor: any = null;
-let model: any = null;
+let processor: Processor | null = null;
+let model: PreTrainedModel | null = null;
 
 async function initializeModel() {
   if (!processor || !model) {
