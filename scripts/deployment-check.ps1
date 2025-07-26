@@ -55,5 +55,5 @@ Write-Host ""
 Write-Host "📝 Deployment Options:" -ForegroundColor Cyan
 Write-Host "1. Lovable Platform: Visit https://lovable.dev/projects/aa69d391-4192-4f15-9faa-987c1cc3a71a" -ForegroundColor White
 Write-Host "2. Vercel: npx vercel --prod" -ForegroundColor White
-Write-Host "3. Netlify: Drag and drop 'dist' folder to Netlify" -ForegroundColor White
+Write-Host "3. Netlify: Drag and drop dist folder to Netlify" -ForegroundColor White
 Write-Host "4. GitHub Pages: Push to main branch" -ForegroundColor White
