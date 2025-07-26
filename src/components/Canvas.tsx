@@ -14,7 +14,7 @@ import { toast } from "sonner";
  */
 export const Canvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | null>(null);
+  const [fabricCanvas, setFabricCanvas] = useState<FabricCanvas | null>(null);
   const [activeColor, setActiveColor] = useState("#8B5CF6");
   const [activeTool, setActiveTool] = useState<"select" | "draw" | "rectangle" | "circle" | "text">("select");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -24,7 +24,7 @@ export const Canvas: React.FC = () => {
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    const canvas = new fabric.Canvas(canvasRef.current, {
+    const canvas = new FabricCanvas(canvasRef.current, {
       width: 800,
       height: 600,
       backgroundColor: "#ffffff",
