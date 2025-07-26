@@ -19,4 +19,24 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // GitHub Pages configuration
+  base: mode === 'production' ? '/don-create-code/' : '/',
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    // Optimize chunks for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          fabric: ['fabric'],
+          ui: ['@radix-ui/react-accordion', '@radix-ui/react-alert-dialog']
+        }
+      }
+    }
+  },
+  preview: {
+    port: 4173,
+    open: true
+  }
 }));
