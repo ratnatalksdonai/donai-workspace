@@ -526,17 +526,63 @@ npm run build
 # Deploy dist/ folder to Netlify
 ```
 
-#### GitHub Pages
+#### GitHub Pages (Recommended for Open Source)
+
+We've optimized Don.ai for seamless GitHub Pages deployment:
+
 ```bash
-# Install gh-pages
-npm install --save-dev gh-pages
+# 1. Build and deploy in one command
+npm run deploy
 
-# Add to package.json scripts
-"deploy": "gh-pages -d dist"
+# 2. Or deploy with our automated script
+npm run deploy:github
 
-# Deploy
-npm run build && npm run deploy
+# 3. Manual deployment steps
+npm run predeploy  # Builds the app
+npm run deploy     # Deploys to gh-pages branch
 ```
+
+**🎯 Live Example**: [https://ratnakiri.github.io/don-create-code/](https://ratnakiri.github.io/don-create-code/)
+
+#### Setup GitHub Pages:
+
+1. **Fork this repository** to your GitHub account
+2. **Update repository name** (optional):
+   - Go to repository **Settings** → **General**
+   - Update repository name if needed
+   - Update `base` path in `vite.config.ts` accordingly
+
+3. **Enable GitHub Pages**:
+   - Go to repository **Settings** → **Pages**
+   - Source: **Deploy from a branch**
+   - Branch: **gh-pages** / **(root)**
+   - Save the settings
+
+4. **Update configuration** (if using different repo name):
+   ```typescript
+   // vite.config.ts - Update repository name
+   base: mode === 'production' ? '/your-repo-name/' : '/',
+   
+   // src/App.tsx - Update basename
+   const basename = import.meta.env.PROD ? '/your-repo-name' : '';
+   ```
+
+5. **Deploy**:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   cd YOUR_REPO_NAME
+   npm install
+   npm run deploy
+   ```
+
+6. **Access your app** at: `https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/`
+
+#### GitHub Pages Features:
+- ✅ **SPA Routing**: Configured for React Router
+- ✅ **Auto-deployment**: Automated with gh-pages package
+- ✅ **Optimized builds**: Production-ready bundles
+- ✅ **Custom 404**: Handles client-side routing
+- ✅ **SEO Ready**: Proper meta tags and descriptions
 
 ## 🤝 Contributing
 
