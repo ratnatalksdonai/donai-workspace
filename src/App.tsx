@@ -6,11 +6,14 @@ import { navItems } from "./nav-items";
 
 const queryClient = new QueryClient();
 
+// Get basename for GitHub Pages deployment
+const basename = import.meta.env.PROD ? '/don-create-code' : '';
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           {navItems.map(({ to, page }) => (
             <Route key={to} path={to} element={page} />
