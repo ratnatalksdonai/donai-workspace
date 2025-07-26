@@ -2,39 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Don.ai Design System - Creative suite inspired by modern design tools
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors */
+    --background: 0 0% 99%;
+    --foreground: 210 24% 16%;
 
+    /* Card components */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 210 24% 16%;
 
+    /* Interactive elements */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 210 24% 16%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Brand colors - Creative gradients */
+    --primary: 264 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 264 83% 70%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Creative secondary colors */
+    --secondary: 190 95% 39%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 190 95% 60%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Neutral tones */
+    --muted: 210 40% 96%;
+    --muted-foreground: 210 16% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 190 95% 39%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* UI elements */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 264 83% 58%;
+
+    /* Creative gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(190 95% 39%), hsl(264 83% 58%));
+    --gradient-secondary: linear-gradient(135deg, hsl(264 83% 58%), hsl(190 95% 39%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    
+    /* Creative shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(264 83% 58% / 0.3);
+    --shadow-glow: 0 0 40px hsl(190 95% 39% / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
@@ -56,33 +78,44 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark theme for creative suite */
+    --background: 210 24% 8%;
+    --foreground: 210 40% 96%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 210 24% 10%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 210 24% 10%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 264 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 264 83% 70%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 190 95% 39%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 190 95% 60%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 210 24% 14%;
+    --muted-foreground: 210 20% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 190 95% 39%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 210 24% 16%;
+    --input: 210 24% 16%;
+    --ring: 264 83% 58%;
+
+    /* Dark theme gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(190 95% 39%), hsl(264 83% 58%));
+    --gradient-secondary: linear-gradient(135deg, hsl(264 83% 58%), hsl(190 95% 39%));
+    --gradient-subtle: linear-gradient(180deg, hsl(210 24% 10%), hsl(210 24% 8%));
+    
+    --shadow-elegant: 0 10px 30px -10px hsl(264 83% 58% / 0.5);
+    --shadow-glow: 0 0 40px hsl(190 95% 39% / 0.6);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
