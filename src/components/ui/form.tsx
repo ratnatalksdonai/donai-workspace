@@ -164,13 +164,12 @@ const FormMessage = React.forwardRef<
 })
 FormMessage.displayName = "FormMessage"
 
-export {
-  useFormField,
-  Form,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  FormField,
-}
+// Individual exports to avoid Fast Refresh warning
+export { useFormField }
+export { Form }
+export { FormItem }
+export { FormLabel }
+export { FormControl }
+export { FormDescription }
+export { FormMessage }
+export { FormField }
