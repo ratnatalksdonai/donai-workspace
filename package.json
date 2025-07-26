@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:auto": "node scripts/dev-with-commit.js",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "commit": "node scripts/commit.js",
+    "auto-commit": "node scripts/auto-commit.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -42,6 +45,7 @@
     "@radix-ui/react-tooltip": "^1.1.4",
     "@supabase/supabase-js": "^2.52.1",
     "@tanstack/react-query": "^5.56.2",
+    "chokidar": "^3.6.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",

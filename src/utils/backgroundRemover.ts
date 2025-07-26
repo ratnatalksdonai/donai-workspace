@@ -1,74 +1,52 @@
-import { pipeline, env } from '@huggingface/transformers';
+import { env, AutoProcessor, Segformer } from '@huggingface/transformers';
 
-// Configure transformers.js to always download models
+// Configure transformers.js
 env.allowLocalModels = false;
-env.useBrowserCache = false;
+env.allowRemoteModels = true;
 
-const MAX_IMAGE_DIMENSION = 1024;
+let processor: any = null;
+let model: any = null;
 
-function resizeImageIfNeeded(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, image: HTMLImageElement) {
-  let width = image.naturalWidth;
-  let height = image.naturalHeight;
-
-  if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
-    if (width > height) {
-      height = Math.round((height * MAX_IMAGE_DIMENSION) / width);
-      width = MAX_IMAGE_DIMENSION;
-    } else {
-      width = Math.round((width * MAX_IMAGE_DIMENSION) / height);
-      height = MAX_IMAGE_DIMENSION;
-    }
-
-    canvas.width = width;
-    canvas.height = height;
-    ctx.drawImage(image, 0, 0, width, height);
-    return true;
+async function initializeModel() {
+  if (!processor || !model) {
+    console.log('Loading background removal model...');
+    processor = await AutoProcessor.from_pretrained('Xenova/segformer-b2-clothes');
+    model = await Segformer.from_pretrained('Xenova/segformer-b2-clothes');
+    console.log('Model loaded successfully');
   }
-
-  canvas.width = width;
-  canvas.height = height;
-  ctx.drawImage(image, 0, 0);
-  return false;
+  return { processor, model };
 }
 
 export const removeBackground = async (imageElement: HTMLImageElement): Promise<Blob> => {
   try {
-    console.log('Starting background removal process...');
-    const segmenter = await pipeline('image-segmentation', 'Xenova/segformer-b0-finetuned-ade-512-512', {
-      device: 'webgpu',
-    });
+    const { processor, model } = await initializeModel();
     
-    // Convert HTMLImageElement to canvas
+    // Create canvas for processing
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    
     if (!ctx) throw new Error('Could not get canvas context');
+
+    // Set canvas size to match image
+    canvas.width = imageElement.naturalWidth || imageElement.width;
+    canvas.height = imageElement.naturalHeight || imageElement.height;
     
-    // Resize image if needed and draw it to canvas
-    const wasResized = resizeImageIfNeeded(canvas, ctx, imageElement);
-    console.log(`Image ${wasResized ? 'was' : 'was not'} resized. Final dimensions: ${canvas.width}x${canvas.height}`);
+    // Draw image to canvas
+    ctx.drawImage(imageElement, 0, 0, canvas.width, canvas.height);
     
-    // Get image data as base64
-    const imageData = canvas.toDataURL('image/jpeg', 0.8);
-    console.log('Image converted to base64');
+    // Get image data
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     
-    // Process the image with the segmentation model
-    console.log('Processing with segmentation model...');
-    const result = await segmenter(imageData);
+    // Process image with the model
+    const inputs = await processor(imageElement);
+    const result = await model(inputs);
     
-    console.log('Segmentation result:', result);
-    
-    if (!result || !Array.isArray(result) || result.length === 0 || !result[0].mask) {
-      throw new Error('Invalid segmentation result');
-    }
-    
-    // Create a new canvas for the masked image
+    // Create output canvas
     const outputCanvas = document.createElement('canvas');
+    const outputCtx = outputCanvas.getContext('2d');
+    if (!outputCtx) throw new Error('Could not get output canvas context');
+    
     outputCanvas.width = canvas.width;
     outputCanvas.height = canvas.height;
-    const outputCtx = outputCanvas.getContext('2d');
-    
-    if (!outputCtx) throw new Error('Could not get output canvas context');
     
     // Draw original image
     outputCtx.drawImage(canvas, 0, 0);
@@ -98,6 +76,28 @@ export const removeBackground = async (imageElement: HTMLImageElement): Promise<
           if (blob) {
             console.log('Successfully created final blob');
             resolve(blob);
+          } else {
+            reject(new Error('Failed to create blob'));
+          }
+        },
+        'image/png',
+        1.0
+      );
+    });
+  } catch (error) {
+    console.error('Error removing background:', error);
+    throw error;
+  }
+};
+
+export const loadImage = (file: Blob): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
+};
           } else {
             reject(new Error('Failed to create blob'));
           }
